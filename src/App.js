@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+// portfolio/src/App.jsx
+import React, { useState } from 'react';
+import {
+    Box,
+    HStack,
+    Button,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalCloseButton
+} from '@chakra-ui/react';
+import { BrowserRouter as Router, Routes, Route, Link as RouterLink } from 'react-router-dom';
+import Home from './components/Home';
+import Contact from './components/Contact';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    return (
+        <Router>
+            <Box p={4} bg="white" borderBottom="1px" borderColor="gray.200">
+                <HStack spacing={4} justify="center">
+                    <Button as={RouterLink} to="/" variant="link" colorScheme="teal">
+                        Home
+                    </Button>
+                    <Button onClick={onOpen} variant="link" colorScheme="teal">
+                        Get in Touch
+                    </Button>
+                </HStack>
+            </Box>
+
+            <Routes>
+                <Route path="/" element={<Home />} />
+            </Routes>
+
+            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Contact Me</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                        <Contact />
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+        </Router>
+    );
 }
 
 export default App;
